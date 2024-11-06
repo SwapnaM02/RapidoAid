@@ -9,7 +9,7 @@ const Login = () => {
     <main className='App-header'>
     <h1> Login to RapidAid</h1>
     <section className="mw-500  " >
-        <h1>hello</h1>
+        <h1>hello,welcome back</h1>
     </section>
 
     </main>
