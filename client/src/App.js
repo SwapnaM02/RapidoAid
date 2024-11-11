@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import './pages/Register/register_css.css'
-import Home from "./pages/Home/";
+import './pages/Register/register_css.css';
+import './pages/Login/loginpage.css'
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register"
+import Register from "./pages/Register";
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 function App() {
   return (
