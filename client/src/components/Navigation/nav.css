@@ -1,0 +1,23 @@
+.nav-container {
+    display : grid;
+    grid-template-columns : 1fr 3fr 1fr;
+    
+}
+.tabs-container {
+    display : flex;
+    padding :0 3rem;
+    align-items : center;
+    justify-content : space-between;
+    background : linear-gradient(135deg,#005EFF,#004CDF);
+    color : var(--text-color);
+    border-radius : 10px;
+    
+    
+}
+.nav-logout{
+    display : flex;
+    gap :2rem;
+    margin : 0 7rem;
+    
+    
+}
