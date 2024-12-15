@@ -1,12 +1,12 @@
 import React from 'react'
-
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input,message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import Carousel from "../../components/carousel/Carousel";
+import {LoginUser} from "../../api/users";
+import { Link, useNavigate } from 'react-router-dom';
 
-
-
-const index = () => {
+const Login = () => {
+    const navigate = useNavigate();
     const carouselDetails=[
         {
         heading:"Immediate Assistance",
@@ -22,12 +22,44 @@ const index = () => {
 
         }
     ]
+    const onFinish = async(values)=>{
+        try{
+            const response = await LoginUser(values);
+            console.log("response from login",response);
+            if(response.success){
+                message.success(response.message);
+                // if token is present in the previous login, remove the previous token
+                if(localStorage.getItem('token')){
+                    localStorage.removeItem('token');
+                }
+                localStorage.setItem('token',response.data);
+                if(response.loginuser.role==='admin'){
+                    navigate("/admin");
+                }
+                else if(response.loginuser.role==='hospital'){
+                    navigate("/hospital");
+                }
+                else if(response.loginuser.role==='user'){
+                    navigate("/user");
+                }
+                else if(response.loginuser.role==='ambulance'){
+                    navigate("/ambulance");
+                }
+                
+            }
+            else{
+                message.error(response.message);
+            }
+
+        }catch(error){
+            message.error(error.message);
+
+        }
+    }
     
     return (
     <>
-
     <div class='login-container'>
-
         {/* start of login-left */}
         <div class='login-left'> 
             
@@ -44,33 +76,28 @@ const index = () => {
                 <Carousel carouselDetails={carouselDetails} />
 
             </div>
-
-
-            
-
-
-            
         </div>
         {/* end of login-left */}
 
 
         <div class='login-right'>
-            <di class="login-right-head">
+            <div class="login-right-head">
                 <p>Login to RapidAid</p>
-            </di>
+            </div>
 
-            <form>
+            <Form layout='vertical' onFinish={onFinish}>
                 <Form.Item label=" Email"
                         name="email"
                         htmlFor='email' 
-                        rules={[{required:true,message:"enter the email"}]}
+                        rules={[{required:true,message:"enter the email"},
+                            {type:"email",message:"Please enter the valid email"}
+                           
+                        ]}
                         >
                             <Input type='email' id="email" name="email" placeholder="enter the email name"></Input>
                 </Form.Item>
-            </form>
 
-
-            <FormItem label="Password" 
+                <FormItem label="Password" 
                     name="password"
                     htmlFor='password' 
                     rules={[{required:true,message:"enter the password"}]}
@@ -79,23 +106,21 @@ const index = () => {
             </FormItem>
 
 
-            <Form.Item className='special-formitem'
-             >
-                    <Button type="primary" block htmlType='submit' className='.btn'>
+            <Form.Item >
+                    <Button type="primary" block htmlType='submit' className='btn'>
                         Login
                     </Button>
             </Form.Item>
-            
 
+                
+            </Form>
 
+            <div>
+                <p>New user? <Link to="/register">Register Here</Link></p>
+            </div>
         </div>
-
-        
     </div>
     </>
     );
-  
-
 }
-
-export default index;
+export default Login;

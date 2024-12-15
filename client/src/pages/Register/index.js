@@ -1,10 +1,28 @@
 import React from 'react';
-import{Form,Button,Input,Radio} from 'antd'; 
+import{Form,Button,Input,Radio,message} from 'antd'; 
 import FormItem from 'antd/es/form/FormItem';
-
+import "../Register/register_css.css";
+import {RegisterUser} from '../../api/users';
+import {Link} from "react-router-dom";
 
 
 const index = () => {
+
+    const onFinish = async(values)=>{
+        try{
+            const response = await RegisterUser(values);
+            console.log("register",response);
+            if(response.success){
+                message.success("User registered successfully");
+
+            }
+            else{
+                message.error(response.message)
+            }
+        }catch(err){
+            message.error(err.message)
+        }
+    }
     
   return (
     <div class="register grid">
@@ -45,7 +63,7 @@ const index = () => {
             </div>
 
             <div class="reg-form">
-                <Form  layout='vertical' className='input-form'>
+                <Form  layout='vertical' onFinish={onFinish} className='input-form'>
                     <Form.Item 
                     label=" First Name"
                     name="firstname"
@@ -70,7 +88,9 @@ const index = () => {
                     name="email"
                     className='special-formitem'
                     htmlFor='email' 
-                    rules={[{required:true,message:"enter the email"}]}
+                    rules={[{required:true,message:"enter the email"},
+                        {type:"email",message:"Please enter the valid email"}
+                    ]}
                     >
                         <Input type='email' id="email" name="email" placeholder="enter the email name"></Input>
                     </Form.Item>
@@ -134,6 +154,10 @@ const index = () => {
 
                     
                 </Form>
+
+                <div>
+                    <p>Already a user?<Link to="/login">Login now</Link></p>
+                </div>
 
 
                 

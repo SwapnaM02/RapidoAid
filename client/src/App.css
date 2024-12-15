@@ -2,7 +2,7 @@
 
 body {
   font-family : "Poppins", sans-serif;
-} */
+} 
 
 * {
   margin : 0;
@@ -16,11 +16,8 @@ html {
 }
 
 body {
- 
   font-family : "Poppins", sans-serif;
   background-color : #fff;
-  
-
 }
 :root { 
   --primary-color : blue;
@@ -41,6 +38,10 @@ body {
 
   .btn-red {
     background-color : red;
+    border: none;
+    border-radius: 1rem;
+    color:var(--text-color);
+    padding:1rem;
   }
   .flex {
     display : flex;
